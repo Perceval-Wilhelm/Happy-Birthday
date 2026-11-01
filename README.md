@@ -14,16 +14,16 @@ An interactive birthday card that plays like a short film under a starlit sky: a
 | Rethink     | "Đó là những gì mà anh đã định làm…": lines rise out of a blur; _đặc biệt_ gets a hand-drawn underline.          |
 | Make a wish | The sky dims, the music falls silent, a shooting star crosses, and the card waits by the cake.                   |
 | Candles     | Tap the candles or blow on the mic: the flames bend with the breath, go out, and the song restarts from the top. |
-| Wish        | Confetti, fireworks and balloons; the photo develops like an instant print under a party hat.                    |
+| Wish        | Confetti, fireworks and balloons; the photos land one by one and develop like instant prints under a party hat.  |
 | Ending      | A heart drawn in stars, the closing line, a replay button, and falling hearts.                                   |
 
 ## Make it for someone else
 
 Everything personal is in [`src/content/card.ts`](src/content/card.ts):
 
-- `name`, `fullName`, and the pronouns `me` / `you` (for example `anh` / `em`, or `em` / `chị`).
+- `name`, `fullName`, and the pronouns `me` / `you` (for example `anh` / `em`, `em` / `chị`, or `mình` and the name itself for someone you call by name).
 - Every line of the story. `{me}` and `{you}` are filled in, `{Me}` and `{You}` start a sentence, and `*words*` get the gold underline.
-- The photo: replace [`src/content/photo.jpg`](src/content/photo.jpg). Portrait (3:4) works best.
+- `photos`: images in [`src/content/`](src/content/), in the order they land in the wish scene; the first is also the chat avatar. Portrait (3:4) works best.
 - `music`: the song. Replace [`public/music/hbd.mp3`](public/music/hbd.mp3) or point it at another file in `public/`.
 - `unlockAt`: keep the gift locked behind a countdown until a moment such as `"2026-11-02T00:00:00+07:00"`.
 - `replyUrl`: add a "Nhắn lại cho anh 💌" button that opens Messenger, Zalo or any link.
@@ -48,7 +48,7 @@ corepack yarn verify
 - One GSAP 3.15 timeline drives the story, with SplitText for word reveals; it pauses at the cake until the candles are blown out.
 - Hand-written canvas starfield and fireworks, CSS balloons, canvas-confetti for confetti and hearts.
 - Self-hosted Be Vietnam Pro, Playfair Display and Dancing Script, each with the Vietnamese subset.
-- `next/image` for the photo (AVIF/WebP and a blur placeholder) and `next/og` for the share image.
+- `next/image` for the photos (AVIF/WebP and a blur placeholder) and `next/og` for the share image.
 - A strict Content Security Policy and `noindex` headers: the card stays out of search engines.
 - Reduced-motion users get the same story with fades only.
 

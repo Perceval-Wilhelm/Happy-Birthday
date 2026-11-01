@@ -63,9 +63,9 @@ Not used: Vercel CI (beta, 200 CPU minutes a month on Hobby) would repeat the Gi
 
 ## Routine release
 
-1. Branch from `main`. Edit `src/content/card.ts` and `src/content/photo.jpg` for a new recipient.
+1. Branch from `main`. Edit `src/content/card.ts` and the photos beside it for a new recipient.
 2. Run `corepack yarn verify`.
-3. Review the whole diff, including the photo and lockfile, then push and open a PR.
+3. Review the whole diff, including the photos and lockfile, then push and open a PR.
 4. Wait for both checks and the Vercel preview. Open the preview while signed in to Vercel; play it through on a phone, including the microphone if you use it.
 5. Squash-merge, or queue auto-merge so it merges as soon as the checks pass. Vercel builds `main` and moves the production domains to it once both checks pass on that commit. Confirm the production domain serves the new commit and the share preview looks right.
 

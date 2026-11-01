@@ -1,15 +1,23 @@
 import type { StaticImageData } from "next/image";
-import photo from "./photo.jpg";
+import photo1 from "./photo-1.jpg";
+import photo2 from "./photo-2.jpg";
+import photo3 from "./photo-3.jpg";
 
 export type CardConfig = {
   /** Shown on the gift, in the greeting and in the chat. */
   name: string;
   fullName: string;
-  /** How the sender refers to themself ("anh", "em", …) and to the recipient ("em", "chị", …). */
+  /**
+   * How the sender refers to themself ("anh", "em", "mình", …) and to the recipient ("em", "chị", …).
+   * For someone you call by name, set `you` to the name itself.
+   */
   me: string;
   you: string;
-  /** Replace src/content/photo.jpg to change the photo; portrait (3:4) works best. */
-  photo: StaticImageData;
+  /**
+   * Photos in src/content/, in the order they land in the wish scene; the last stays on top. The first
+   * is also the chat avatar. Portrait (3:4) works best.
+   */
+  photos: [StaticImageData, ...StaticImageData[]];
   music: string;
   /** Keep the gift locked until this moment, as ISO time with an offset, e.g. "2026-11-02T00:00:00+07:00". */
   unlockAt: string | null;
@@ -37,16 +45,16 @@ export type CardConfig = {
 };
 
 export const card: CardConfig = {
-  name: "Hân",
-  fullName: "Gia Hân",
-  me: "anh",
-  you: "em",
-  photo,
+  name: "Tiên",
+  fullName: "Huỳnh Ngọc Thuỷ Tiên",
+  me: "mình",
+  you: "Tiên",
+  photos: [photo1, photo2, photo3],
   music: "/music/hbd.mp3",
   unlockAt: null,
   replyUrl: null,
   text: {
-    greeting: "Thật ra tên của {you} nghe rất hay đó, {fullName}!",
+    greeting: "{fullName} hay Maeve, tên nào của {you} cũng nghe rất hay đó!",
     birthday: "It's your birthday!!",
     message:
       "Chúc mừng sinh nhật!!! Chúc mỹ nữ tuổi mới ngày càng xinh đẹp, giỏi giang, học được thật nhiều kiến thức, kiếm thật nhiều tiền, tràn đầy sức khoẻ và niềm vui trong cuộc sống nha",

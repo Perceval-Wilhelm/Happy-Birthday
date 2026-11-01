@@ -4,7 +4,7 @@ import { expect, test, type Page } from "@playwright/test";
 // The story is ~70 s of animation; Playwright's fake clock fast-forwards it in well under a second.
 const GATE = 3_000;
 const TO_THE_CAKE = 55_000;
-const TO_THE_END = 20_000;
+const TO_THE_END = 22_000;
 
 function collectProblems(page: Page) {
   const problems: string[] = [];

@@ -1,11 +1,11 @@
 # Happy Birthday contributor guide
 
-A personal, Vietnamese-language birthday card for one recipient at a time. It is public on GitHub and on Vercel, so treat the recipient's name and photo with care: never add more personal data than the card shows.
+A personal, Vietnamese-language birthday card for one recipient at a time. It is public on GitHub and on Vercel, so treat the recipient's name and photos with care: never add more personal data than the card shows.
 
 ## Architecture
 
 - Next.js App Router. `src/app/page.tsx` renders `BirthdayCard` with the resolved content; the page is static.
-- `src/content/card.ts` holds everything personal: names, pronouns, every line of the story, the photo, `unlockAt` and `replyUrl`. `src/features/card/resolve.ts` fills the `{me}`/`{you}` templates on the server.
+- `src/content/card.ts` holds everything personal: names, pronouns, every line of the story, the photos, `unlockAt` and `replyUrl`. `src/features/card/resolve.ts` fills the `{me}`/`{you}` templates on the server.
 - `src/features/card/BirthdayCard.tsx` is the client component: markup for every scene, the gate, the cake interaction, sound, replay and the polaroid tilt.
 - `story.ts` builds the whole card as one paused GSAP timeline. Scenes share one grid cell. It pauses at the cake (`addPause`) until `blow()` resumes it. Keep new scenes inside this timeline so replay (`restart()`) resets them.
 - Imperative layers live in their own modules, each with a dispose function: `sky.ts` (stars, shooting stars), `fireworks.ts`, `balloons.ts`, `music.ts`, `effects.ts` (confetti on the card's own canvas, haptics) and `mic.ts` (microphone blow detection using `src/lib/blow.ts`).

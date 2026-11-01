@@ -5,6 +5,7 @@ import { ErrorReporter } from "@/components/error-reporter";
 import { SiteMonitoring } from "@/components/site-monitoring";
 import { card } from "@/content/card";
 import "@/features/card/card.css";
+import { resolveCard } from "@/features/card/resolve";
 
 // Self-hosted at build time, each with the Vietnamese subset so no letter falls back to another font.
 const sans = Be_Vietnam_Pro({
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
   description: teaser,
   // A personal card: keep it out of search engines.
   robots: { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false } },
-  openGraph: { title: `Gửi ${card.you} ${card.name} 💌`, description: teaser, type: "website", locale: "vi_VN" },
+  openGraph: { title: `Gửi ${resolveCard(card).addressee} 💌`, description: teaser, type: "website", locale: "vi_VN" },
   twitter: { card: "summary_large_image" },
 };
 
