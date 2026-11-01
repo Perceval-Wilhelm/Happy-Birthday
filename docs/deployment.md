@@ -4,7 +4,7 @@ Configuration reviewed on **1 November 2026**. The card is a static Next.js page
 
 ## Project identity
 
-- GitHub: [Perceval-Wilhelm/Happy-Birthday](https://github.com/Perceval-Wilhelm/Happy-Birthday).
+- GitHub: [Perceval-Wilhelm/happy-birthday](https://github.com/Perceval-Wilhelm/happy-birthday).
 - Commits: authored as `Bùi Quốc Thịnh <82101710+Perceval-Wilhelm@users.noreply.github.com>`, the owner's GitHub noreply address. On 1 November 2026 the history was rewritten, with the `main` ruleset briefly disabled, to replace a work identity. Commit IDs on earlier pull request pages and Vercel deployments are therefore not on `main`.
 - Vercel: [happy-birthday](https://vercel.com/perceval-wilhelms-projects/happy-birthday), in the personal `perceval-wilhelms-projects` workspace (Hobby).
 - Production: [happy-birthday-to-you-from-perceval.vercel.app](https://happy-birthday-to-you-from-perceval.vercel.app), also served at `happy-birthday-perceval-wilhelms-projects.vercel.app`. The share image URL is fixed at build time from the production domain, so redeploy after renaming it.
