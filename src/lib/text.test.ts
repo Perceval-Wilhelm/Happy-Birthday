@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { emphasis, fill } from "./text";
 
-const voice = { me: "anh", you: "em", name: "Hân", fullName: "Gia Hân" };
+const voice = { me: "anh", you: "em", name: "Lan", fullName: "Ngọc Lan" };
 
 describe("fill", () => {
   it("swaps pronouns and names", () => {
     expect(fill("Thật ra tên của {you} nghe rất hay đó, {fullName}!", voice)).toBe(
-      "Thật ra tên của em nghe rất hay đó, Gia Hân!",
+      "Thật ra tên của em nghe rất hay đó, Ngọc Lan!",
     );
   });
 

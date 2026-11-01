@@ -29,18 +29,18 @@ describe("site monitoring", () => {
   it.each(["pageview", "vital"])("redacts URL data for %s without mutating the source", (type) => {
     const event = {
       type,
-      url: "https://name:password@happy-birthday-gia-han.vercel.app/moments/wish-tap?from=zalo#private-note",
+      url: "https://name:password@card.example.com/moments/wish-tap?from=zalo#private-note",
       route: "/moments/[moment]",
     };
     expect(prepareMonitoringEvent(event)).toEqual({
       ...event,
-      url: "https://happy-birthday-gia-han.vercel.app/moments/wish-tap",
+      url: "https://card.example.com/moments/wish-tap",
     });
     expect(event.url).toContain("from=zalo");
   });
 
   it("drops custom events even if another caller adds one later", () => {
-    expect(prepareMonitoringEvent({ type: "event", url: "https://happy-birthday-gia-han.vercel.app/" })).toBeNull();
+    expect(prepareMonitoringEvent({ type: "event", url: "https://card.example.com/" })).toBeNull();
   });
 
   it.each(["not a URL", "javascript:alert(1)"])("drops invalid monitoring URLs: %s", (url) => {

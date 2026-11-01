@@ -31,7 +31,8 @@ test("opens the gift, waits for the wish, and plays to the end", async ({ page }
 
   const gift = page.getByRole("button", { name: "Mở quà" });
   await expect(gift).toBeVisible();
-  await expect(page.getByText("Gửi em Hân 💌")).toBeVisible();
+  // The name comes from src/content/card.ts, so check the label's shape rather than one recipient.
+  await expect(page.getByText(/^Gửi .+ 💌$/)).toBeVisible();
   expect(await axeViolations(page)).toEqual([]);
 
   await gift.click();
