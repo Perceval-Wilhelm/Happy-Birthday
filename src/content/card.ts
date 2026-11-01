@@ -47,7 +47,7 @@ export type CardConfig = {
 export const card: CardConfig = {
   name: "Tiên",
   fullName: "Huỳnh Ngọc Thuỷ Tiên",
-  me: "mình",
+  me: "Thịnh",
   you: "Tiên",
   photos: [photo1, photo2, photo3],
   music: "/music/hbd.mp3",
