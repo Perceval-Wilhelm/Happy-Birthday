@@ -8,7 +8,7 @@ An interactive birthday card that plays like a short film under a starlit sky: a
 
 | Scene       | What happens                                                                                                     |
 | ----------- | ---------------------------------------------------------------------------------------------------------------- |
-| Gift        | "Gửi em Hân 💌" above a wiggling gift. Opening it starts the music (and it can be locked until a set time).      |
+| Gift        | The recipient's name above a wiggling gift. Opening it starts the music (and it can be locked until a set time). |
 | Greeting    | The name is written on in gold ink.                                                                              |
 | Chat        | A Messenger-style screen types the birthday wish, almost sends it, then erases it.                               |
 | Rethink     | "Đó là những gì mà anh đã định làm…": lines rise out of a blur; _đặc biệt_ gets a hand-drawn underline.          |
@@ -24,6 +24,7 @@ Everything personal is in [`src/content/card.ts`](src/content/card.ts):
 - `name`, `fullName`, and the pronouns `me` / `you` (for example `anh` / `em`, or `em` / `chị`).
 - Every line of the story. `{me}` and `{you}` are filled in, `{Me}` and `{You}` start a sentence, and `*words*` get the gold underline.
 - The photo: replace [`src/content/photo.jpg`](src/content/photo.jpg). Portrait (3:4) works best.
+- `music`: the song. Replace [`public/music/hbd.mp3`](public/music/hbd.mp3) or point it at another file in `public/`.
 - `unlockAt`: keep the gift locked behind a countdown until a moment such as `"2026-11-02T00:00:00+07:00"`.
 - `replyUrl`: add a "Nhắn lại cho anh 💌" button that opens Messenger, Zalo or any link.
 
