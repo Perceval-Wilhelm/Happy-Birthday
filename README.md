@@ -2,7 +2,7 @@
 
 An interactive birthday card that plays like a short film under a starlit sky: a gift to open, a message that almost gets sent, a wish to make, and candles to blow out by tapping them or by really blowing into the phone's microphone.
 
-**Live:** [happy-birthday-gia-han.vercel.app](https://happy-birthday-gia-han.vercel.app)
+**Live:** [happy-birthday-to-you-from-perceval.vercel.app](https://happy-birthday-to-you-from-perceval.vercel.app)
 
 ## The story
 
@@ -63,7 +63,7 @@ Only milestone names and error messages are collected: no names, text or query s
 
 ## Delivery
 
-GitHub Actions runs **Happy Birthday quality** and **Happy Birthday browser** on every pull request; Vercel builds a preview of every branch and deploys `main` to production. See [docs/deployment.md](docs/deployment.md) for the full setup and release routine.
+GitHub Actions runs **Happy Birthday quality** and **Happy Birthday browser** on every pull request; Vercel builds a preview of every branch and deploys `main` to production once both checks pass. See [docs/deployment.md](docs/deployment.md) for the full setup and release routine.
 
 ## Credits
 

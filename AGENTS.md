@@ -39,5 +39,5 @@ For visual changes, check every scene on a 375 px phone and a 1440 px desktop, w
 
 - Pin direct dependency versions and commit `yarn.lock` with intentional dependency changes. Prefer the newest stable versions that work together; do not force installs or add broad resolutions.
 - Keep Vercel configured as Next.js through `vercel.json`, with install and build run through `corepack yarn`.
-- See `docs/deployment.md` before changing GitHub or Vercel settings. Keep actions pinned to full commit SHAs, keep read-only workflow permissions and the two check names, and do not add deployment credentials: Vercel's Git integration deploys.
+- See `docs/deployment.md` before changing GitHub or Vercel settings. Keep actions pinned to full commit SHAs, keep read-only workflow permissions and the two check names (Vercel's deployment checks wait for them by name), and do not add deployment credentials: Vercel's Git integration deploys.
 - Use Conventional Commits. Never change Git identity or add co-author/tool attribution. Commit and push only when authorized.
