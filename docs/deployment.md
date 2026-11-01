@@ -44,12 +44,12 @@ The `main` ruleset and repository settings, based on the open-kiln setup:
 | Deployment protection | Vercel Authentication on previews and deployment URLs; production domains public                                                                                           |
 | Environment variables | None required                                                                                                                                                              |
 | Web Analytics         | On; the SDK mounts only when `VERCEL_ENV` is `production`                                                                                                                  |
-| Speed Insights        | Production only. `vercel project speed-insights enable happy-birthday` turns it on after an interactive confirmation; Hobby includes 10K events per rolling 30 days        |
+| Speed Insights        | On for production with nothing to switch on: Hobby's free tier includes 10K events per rolling 30 days                                                                     |
 | Deployment checks     | Happy Birthday quality and Happy Birthday browser, from GitHub. A production deployment gets the production domains only after both pass on its commit (20-minute timeout) |
 | Firewall              | AI crawlers denied, AI assistants logged. Custom rule "Rate limit error reports": 20 requests per minute per IP to `/api/telemetry`                                        |
 | Deployment retention  | Deployments expire after 30 days; the 10 newest production deployments are kept                                                                                            |
 
-These settings live in Vercel, not in this repository. Change them with the CLI (`vercel project web-analytics`, `vercel project speed-insights`, `vercel project checks`, `vercel firewall`) or the dashboard. Analytics routes and function settings take effect from the next deployment. Keep build settings in `vercel.json` rather than as dashboard overrides.
+These settings live in Vercel, not in this repository. Change them with the CLI (`vercel project web-analytics`, `vercel project checks`, `vercel firewall`) or the dashboard. Do not run `vercel project speed-insights enable` or `vercel project observability enable`: they turn on the paid Plus tiers. Analytics routes and function settings take effect from the next deployment. Keep build settings in `vercel.json` rather than as dashboard overrides.
 
 Not used: Vercel CI (beta, 200 CPU minutes a month on Hobby) would repeat the GitHub Actions jobs, whose results already gate production. Bot Protection's challenge could block the chat apps that fetch the share preview. Skew Protection, Rolling Releases, alerts, custom monitors, drains and longer log retention need a paid plan.
 
