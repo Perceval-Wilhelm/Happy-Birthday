@@ -4,24 +4,27 @@
   --night-3: #431f4f;
   --dusk: #7a3357;
   --cream: #fff6ec;
-  --cream-soft: rgba(255, 246, 236, .76);
+  --cream-soft: rgba(255, 246, 236, 0.76);
   --gold: #f6c56f;
   --gold-light: #fff0c2;
   --gold-deep: #d38d33;
   --rose: #ff8fb1;
-  --glass: rgba(255, 255, 255, .07);
-  --glass-line: rgba(255, 255, 255, .15);
+  --glass: rgba(255, 255, 255, 0.07);
+  --glass-line: rgba(255, 255, 255, 0.15);
   --gold-ink: linear-gradient(180deg, var(--gold-light) 12%, var(--gold) 55%, var(--gold-deep) 100%);
-  --serif: 'Playfair Display', Georgia, serif;
-  --script: 'Dancing Script', cursive;
-  --sans: 'Be Vietnam Pro', system-ui, sans-serif;
+  --serif: var(--font-serif), Georgia, serif;
+  --script: var(--font-script), cursive;
+  --sans: var(--font-sans), system-ui, sans-serif;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -45,29 +48,52 @@ button {
   cursor: pointer;
 }
 
-button:focus-visible {
+button:focus-visible,
+a:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 4px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .song {
   display: none;
 }
 
-/* Backdrop: stars (canvas), slow aurora glows, balloons */
-#sky, .aurora, .balloons {
+/* Backdrop layers, back to front */
+.sky,
+.aurora,
+.moon,
+.balloons,
+.dim,
+.fireworks,
+.grain {
   position: fixed;
-  inset: 0;
   pointer-events: none;
 }
 
-#sky {
+.sky,
+.fireworks {
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
 }
 
 .aurora {
+  inset: 0;
   overflow: hidden;
 }
 
@@ -82,13 +108,13 @@ button:focus-visible {
 .aurora i:nth-child(1) {
   left: -30vmax;
   top: 30%;
-  background: radial-gradient(closest-side, rgba(255, 143, 177, .32), transparent);
+  background: radial-gradient(closest-side, rgba(255, 143, 177, 0.32), transparent);
 }
 
 .aurora i:nth-child(2) {
   right: -32vmax;
   top: -20vmax;
-  background: radial-gradient(closest-side, rgba(183, 155, 255, .3), transparent);
+  background: radial-gradient(closest-side, rgba(183, 155, 255, 0.3), transparent);
   animation-duration: 34s;
   animation-delay: -10s;
 }
@@ -96,7 +122,7 @@ button:focus-visible {
 .aurora i:nth-child(3) {
   left: 15%;
   bottom: -45vmax;
-  background: radial-gradient(closest-side, rgba(246, 197, 111, .22), transparent);
+  background: radial-gradient(closest-side, rgba(246, 197, 111, 0.22), transparent);
   animation-duration: 40s;
   animation-delay: -20s;
 }
@@ -108,7 +134,21 @@ button:focus-visible {
   }
 }
 
+/* A crescent moon: a lit edge cut by its own shadow. */
+.moon {
+  top: max(4vh, 26px);
+  left: 8vw;
+  width: clamp(28px, 7.5vw, 54px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  box-shadow: inset clamp(-14px, -2.2vw, -8px) clamp(5px, 1vw, 8px) 0 0 #fff1c4;
+  filter: drop-shadow(0 0 18px rgba(255, 241, 196, 0.45));
+  rotate: -18deg;
+  opacity: 0.9;
+}
+
 .balloons {
+  inset: 0;
   z-index: 1;
   overflow: hidden;
 }
@@ -125,16 +165,16 @@ button:focus-visible {
   height: 100%;
   border-radius: 50% 50% 48% 52% / 46% 46% 54% 54%;
   background:
-    radial-gradient(circle at 33% 27%, rgba(255, 255, 255, .8) 0 5%, rgba(255, 255, 255, 0) 24%),
+    radial-gradient(circle at 33% 27%, rgba(255, 255, 255, 0.8) 0 5%, rgba(255, 255, 255, 0) 24%),
     radial-gradient(circle at 50% 50%, var(--c) 40%, var(--d) 100%);
-  box-shadow: inset -6px -10px 18px rgba(0, 0, 0, .12);
+  box-shadow: inset -6px -10px 18px rgba(0, 0, 0, 0.12);
   transform-origin: 50% 130%;
   animation: sway var(--sway) ease-in-out infinite alternate;
 }
 
 /* knot */
 .balloon .b::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 50%;
   bottom: -6px;
@@ -147,14 +187,15 @@ button:focus-visible {
 
 /* string */
 .balloon .b::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 50%;
   top: calc(100% + 2px);
   width: 20px;
   height: 120%;
   translate: -50% 0;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 100' preserveAspectRatio='none'%3E%3Cpath d='M10 0c-7 16 7 30 0 48s7 34 0 52' fill='none' stroke='%23fff' stroke-opacity='.5' stroke-width='1.2' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 100' preserveAspectRatio='none'%3E%3Cpath d='M10 0c-7 16 7 30 0 48s7 34 0 52' fill='none' stroke='%23fff' stroke-opacity='.5' stroke-width='1.2' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
 }
 
 @keyframes sway {
@@ -169,7 +210,57 @@ button:focus-visible {
   }
 }
 
-/* Every scene sits in the same grid cell, centred; GSAP decides which one shows */
+/* The sky darkens while a wish is made, so the candles carry the light. */
+.dim {
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(ellipse at 50% 45%, rgba(8, 5, 22, 0.25), rgba(8, 5, 22, 0.75));
+  opacity: 0;
+  visibility: hidden;
+}
+
+.fireworks {
+  z-index: 1;
+}
+
+.confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* A whisper of film grain keeps the gradients from banding. */
+.grain {
+  inset: 0;
+  z-index: 3;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+}
+
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  visibility: hidden;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold-light));
+  transform-origin: 0 50%;
+  scale: 0 1;
+}
+
+/* Every scene sits in the same grid cell, centred; GSAP decides which one shows. */
 .stage {
   position: fixed;
   inset: 0;
@@ -208,6 +299,26 @@ button:focus-visible {
   font-weight: 700;
 }
 
+.countdown {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+}
+
+.countdown-label {
+  color: var(--cream-soft);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.countdown-time {
+  color: var(--gold-light);
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 8vw, 2.6rem);
+  font-variant-numeric: tabular-nums;
+}
+
 .gift {
   display: grid;
   justify-items: center;
@@ -225,52 +336,77 @@ button:focus-visible {
 }
 
 .gift-box::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: -25%;
   z-index: -1;
-  background: radial-gradient(closest-side, rgba(255, 143, 177, .35), transparent);
+  background: radial-gradient(closest-side, rgba(255, 143, 177, 0.35), transparent);
 }
 
 .gift-box svg {
   display: block;
   width: 100%;
   overflow: visible;
-  filter: drop-shadow(0 22px 30px rgba(0, 0, 0, .35));
+  filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.35));
 }
 
-.gift.is-open .gift-box {
+.gift.is-open .gift-box,
+.gift[aria-disabled="true"] .gift-box {
   animation: none;
 }
 
 @keyframes wiggle {
-  0%, 70%, 100% { rotate: 0deg; }
-  76% { rotate: -6deg; }
-  82% { rotate: 5deg; }
-  88% { rotate: -3deg; }
-  94% { rotate: 2deg; }
+  0%,
+  70%,
+  100% {
+    rotate: 0deg;
+  }
+  76% {
+    rotate: -6deg;
+  }
+  82% {
+    rotate: 5deg;
+  }
+  88% {
+    rotate: -3deg;
+  }
+  94% {
+    rotate: 2deg;
+  }
 }
 
 .gift-label {
   padding: 13px 34px;
   border-radius: 999px;
   background: linear-gradient(135deg, var(--gold-light), var(--gold) 55%, var(--gold-deep));
-  box-shadow: 0 12px 34px rgba(246, 197, 111, .35), inset 0 1px 0 rgba(255, 255, 255, .7);
+  box-shadow:
+    0 12px 34px rgba(246, 197, 111, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
   color: #3a2410;
   font-weight: 600;
-  letter-spacing: .02em;
-  transition: translate .3s, box-shadow .3s;
+  letter-spacing: 0.02em;
+  transition:
+    translate 0.3s,
+    box-shadow 0.3s;
 }
 
 .gift:hover .gift-label {
   translate: 0 -2px;
-  box-shadow: 0 16px 40px rgba(246, 197, 111, .5), inset 0 1px 0 rgba(255, 255, 255, .7);
+  box-shadow:
+    0 16px 40px rgba(246, 197, 111, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.gift[aria-disabled="true"] .gift-label {
+  background: var(--glass);
+  box-shadow: inset 0 0 0 1px var(--glass-line);
+  color: var(--cream);
 }
 
 .gate-hint {
   margin: 6px 0 0;
   color: var(--cream-soft);
-  font-size: .92rem;
+  font-size: 0.92rem;
 }
 
 /* Greeting */
@@ -282,7 +418,7 @@ button:focus-visible {
 
 .hi-word {
   display: block;
-  margin-bottom: .2em;
+  margin-bottom: 0.2em;
   color: var(--cream-soft);
   font-family: var(--serif);
   font-size: clamp(1.6rem, 6.5vw, 2.6rem);
@@ -296,8 +432,8 @@ button:focus-visible {
 }
 
 .ink {
-  margin: -.15em -.1em;
-  padding: .15em .1em;
+  margin: -0.15em -0.1em;
+  padding: 0.15em 0.1em;
   background: var(--gold-ink);
   -webkit-background-clip: text;
   background-clip: text;
@@ -324,9 +460,10 @@ button:focus-visible {
   line-height: 1.15;
 }
 
-.grin, .smile {
+.grin,
+.smile {
   display: inline-block;
-  margin-left: .15em;
+  margin-left: 0.15em;
   color: var(--gold);
   font-family: var(--sans);
   font-style: normal;
@@ -344,8 +481,10 @@ button:focus-visible {
   overflow: hidden;
   border: 1px solid var(--glass-line);
   border-radius: 30px;
-  background: rgba(22, 14, 48, .62);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .08);
+  background: rgba(22, 14, 48, 0.62);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   text-align: left;
@@ -359,7 +498,8 @@ button:focus-visible {
   border-bottom: 1px solid var(--glass-line);
 }
 
-.chat-head strong, .chat-body strong {
+.chat-head strong,
+.chat-body strong {
   display: block;
   font-weight: 600;
 }
@@ -369,16 +509,16 @@ button:focus-visible {
   align-items: center;
   gap: 6px;
   color: var(--cream-soft);
-  font-size: .78rem;
+  font-size: 0.78rem;
 }
 
 .chat-head small::before {
-  content: '';
+  content: "";
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: #3ddc84;
-  box-shadow: 0 0 0 3px rgba(61, 220, 132, .2);
+  box-shadow: 0 0 0 3px rgba(61, 220, 132, 0.2);
 }
 
 .back {
@@ -391,8 +531,6 @@ button:focus-visible {
 }
 
 .avatar {
-  width: 38px;
-  height: 38px;
   border-radius: 50%;
   object-fit: cover;
   object-position: 50% 25%;
@@ -407,18 +545,16 @@ button:focus-visible {
   text-align: center;
 }
 
-.chat-body .avatar {
-  width: 78px;
-  height: 78px;
+.avatar-lg {
   margin-bottom: 6px;
   padding: 3px;
   background: linear-gradient(135deg, var(--rose), var(--gold));
 }
 
 .chat-body small {
-  color: rgba(255, 246, 236, .45);
-  font-size: .72rem;
-  letter-spacing: .14em;
+  color: rgba(255, 246, 236, 0.5);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -436,8 +572,8 @@ button:focus-visible {
   padding: 10px 14px;
   border: 1px solid var(--glass-line);
   border-radius: 22px;
-  background: rgba(255, 255, 255, .07);
-  font-size: .96rem;
+  background: rgba(255, 255, 255, 0.07);
+  font-size: 0.96rem;
   font-weight: 400;
   line-height: 1.5;
 }
@@ -447,13 +583,15 @@ button:focus-visible {
   width: 2px;
   height: 1.15em;
   margin-left: 1px;
-  vertical-align: -.2em;
+  vertical-align: -0.2em;
   background: var(--gold);
   animation: blink 1s steps(1) infinite;
 }
 
 @keyframes blink {
-  50% { opacity: 0; }
+  50% {
+    opacity: 0;
+  }
 }
 
 .send {
@@ -463,7 +601,7 @@ button:focus-visible {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, .1);
+  background: rgba(255, 255, 255, 0.1);
   color: var(--cream);
 }
 
@@ -495,9 +633,9 @@ button:focus-visible {
 .scribble {
   position: absolute;
   left: -4%;
-  bottom: -.25em;
+  bottom: -0.25em;
   width: 108%;
-  height: .45em;
+  height: 0.45em;
   overflow: visible;
 }
 
@@ -515,14 +653,14 @@ button:focus-visible {
   font-size: clamp(7rem, 40vw, 16rem);
   font-weight: 600;
   line-height: 1;
-  letter-spacing: .04em;
+  letter-spacing: 0.04em;
 }
 
-.so span {
+.so-letter {
   display: inline-block;
   color: rgba(246, 197, 111, 0);
   -webkit-text-stroke: 2px var(--gold);
-  text-shadow: 0 0 30px rgba(246, 197, 111, .45);
+  text-shadow: 0 0 30px rgba(246, 197, 111, 0.45);
 }
 
 /* Make a wish */
@@ -553,19 +691,36 @@ button:focus-visible {
   aspect-ratio: 1;
   translate: -50% -50%;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(255, 199, 110, .4), transparent);
+  background: radial-gradient(closest-side, rgba(255, 199, 110, 0.4), transparent);
+}
+
+/* The microphone sets --breath (0–1): the flames lean away and shrink as she blows. */
+.flame-lean {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  rotate: calc(var(--breath, 0) * -28deg);
+  scale: 1 calc(1 - var(--breath, 0) * 0.35);
+  transition:
+    rotate 0.08s linear,
+    scale 0.08s linear;
 }
 
 .flame {
   transform-box: fill-box;
   transform-origin: 50% 90%;
-  animation: flicker .5s ease-in-out infinite alternate;
+  animation: flicker 0.5s ease-in-out infinite alternate;
 }
 
 @keyframes flicker {
-  0% { transform: scale(1, 1) skewX(0deg); }
-  45% { transform: scale(.93, 1.07) skewX(2.5deg); }
-  100% { transform: scale(1.05, .95) skewX(-2deg); }
+  0% {
+    transform: scale(1, 1) skewX(0deg);
+  }
+  45% {
+    transform: scale(0.93, 1.07) skewX(2.5deg);
+  }
+  100% {
+    transform: scale(1.05, 0.95) skewX(-2deg);
+  }
 }
 
 .smoke {
@@ -589,14 +744,19 @@ button:focus-visible {
   pointer-events: none;
 }
 
-.cake.is-waiting .tap {
-  animation: tap 1.6s ease-out 3s infinite;
+.cake[data-waiting] .tap {
+  animation: tap 1.6s ease-out 4s infinite;
+}
+
+/* While the microphone listens, the breath itself is the hint. */
+.cake-scene:has(.mic[data-state="listening"]) .tap {
+  animation: none;
 }
 
 @keyframes tap {
   from {
-    opacity: .9;
-    scale: .5;
+    opacity: 0.9;
+    scale: 0.5;
   }
 
   to {
@@ -615,6 +775,30 @@ button:focus-visible {
   text-wrap: balance;
 }
 
+.mic {
+  padding: 9px 18px;
+  border: 1px solid var(--glass-line);
+  border-radius: 999px;
+  background: var(--glass);
+  color: var(--cream-soft);
+  font-size: 0.9rem;
+  transition:
+    background-color 0.3s,
+    border-color 0.3s,
+    color 0.3s;
+}
+
+.mic:hover {
+  border-color: rgba(246, 197, 111, 0.6);
+  color: var(--cream);
+}
+
+.mic[data-state="listening"] {
+  border-color: var(--gold);
+  color: var(--gold-light);
+  box-shadow: 0 0 0 calc(var(--breath, 0) * 10px) rgba(246, 197, 111, 0.25);
+}
+
 /* The wish */
 .wish {
   display: grid;
@@ -624,19 +808,20 @@ button:focus-visible {
 
 .polaroid {
   position: relative;
-  width: min(62vw, 290px, calc((100vh - 330px) * .7));
-  width: min(62vw, 290px, calc((100dvh - 330px) * .7));
+  width: min(62vw, 290px, calc((100vh - 330px) * 0.7));
+  width: min(62vw, 290px, calc((100dvh - 330px) * 0.7));
   margin: 0;
   padding: 11px 11px 0;
   border-radius: 3px;
   background: #fffaf2;
-  box-shadow: 0 28px 60px rgba(0, 0, 0, .5);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.5);
   rotate: -3deg;
 }
 
 .photo {
   display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 3 / 4;
   border-radius: 2px;
   background: #2b2241;
@@ -645,6 +830,7 @@ button:focus-visible {
 }
 
 .date {
+  min-height: 2.6em;
   padding: 8px 0 12px;
   color: #8a5a6e;
   font-family: var(--script);
@@ -662,8 +848,8 @@ button:focus-visible {
   height: 26px;
   translate: -50% 0;
   rotate: 3deg;
-  background: rgba(255, 196, 220, .72);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .18);
+  background: rgba(255, 196, 220, 0.72);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
 }
 
 .hat {
@@ -672,8 +858,9 @@ button:focus-visible {
   left: -12%;
   z-index: 2;
   width: 28%;
+  height: auto;
   rotate: -22deg;
-  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .3));
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.3));
 }
 
 .sparkle {
@@ -685,16 +872,40 @@ button:focus-visible {
   animation: twinkle 2.4s ease-in-out infinite;
 }
 
-.sparkle:nth-of-type(1) { top: 30%; left: -14%; }
-.sparkle:nth-of-type(2) { top: 8%; right: -12%; width: 24px; animation-delay: -.6s; }
-.sparkle:nth-of-type(3) { top: 56%; right: -16%; width: 14px; animation-delay: -1.2s; }
-.sparkle:nth-of-type(4) { bottom: 6%; left: -9%; width: 22px; animation-delay: -1.8s; }
-.sparkle:nth-of-type(5) { bottom: -7%; right: 18%; width: 12px; animation-delay: -.9s; }
+.sparkle:nth-of-type(1) {
+  top: 30%;
+  left: -14%;
+}
+.sparkle:nth-of-type(2) {
+  top: 8%;
+  right: -12%;
+  width: 24px;
+  animation-delay: -0.6s;
+}
+.sparkle:nth-of-type(3) {
+  top: 56%;
+  right: -16%;
+  width: 14px;
+  animation-delay: -1.2s;
+}
+.sparkle:nth-of-type(4) {
+  bottom: 6%;
+  left: -9%;
+  width: 22px;
+  animation-delay: -1.8s;
+}
+.sparkle:nth-of-type(5) {
+  bottom: -7%;
+  right: 18%;
+  width: 12px;
+  animation-delay: -0.9s;
+}
 
 @keyframes twinkle {
-  0%, 100% {
-    opacity: .2;
-    scale: .6;
+  0%,
+  100% {
+    opacity: 0.2;
+    scale: 0.6;
   }
 
   50% {
@@ -715,7 +926,7 @@ button:focus-visible {
   font-size: clamp(3rem, 13.5vw, 5.8rem);
   font-weight: 700;
   line-height: 1.05;
-  filter: drop-shadow(0 6px 24px rgba(246, 197, 111, .35));
+  filter: drop-shadow(0 6px 24px rgba(246, 197, 111, 0.35));
 }
 
 #wishText {
@@ -731,7 +942,26 @@ button:focus-visible {
 .end {
   display: grid;
   justify-items: center;
-  gap: 22px;
+  gap: 20px;
+}
+
+.constellation {
+  width: min(140px, 34vw);
+  overflow: visible;
+  filter: drop-shadow(0 0 6px rgba(255, 240, 194, 0.7));
+}
+
+.constellation-line {
+  fill: none;
+  stroke: rgba(255, 240, 194, 0.55);
+  stroke-width: 0.35;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.constellation-star {
+  fill: var(--gold-light);
 }
 
 .end-msg {
@@ -742,6 +972,25 @@ button:focus-visible {
   font-style: italic;
   line-height: 1.35;
   text-wrap: balance;
+}
+
+.end-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.reply {
+  display: inline-flex;
+  align-items: center;
+  padding: 13px 24px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold) 55%, var(--gold-deep));
+  box-shadow: 0 12px 34px rgba(246, 197, 111, 0.3);
+  color: #3a2410;
+  font-weight: 600;
+  text-decoration: none;
 }
 
 .replay {
@@ -755,19 +1004,21 @@ button:focus-visible {
   background: var(--glass);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  font-size: clamp(.95rem, 3.8vw, 1.08rem);
+  font-size: clamp(0.95rem, 3.8vw, 1.08rem);
   font-weight: 400;
   text-align: left;
-  transition: background-color .3s, border-color .3s;
+  transition:
+    background-color 0.3s,
+    border-color 0.3s;
+}
+
+.replay:hover {
+  border-color: rgba(246, 197, 111, 0.6);
+  background-color: rgba(255, 255, 255, 0.14);
 }
 
 .replay span {
   max-width: 24ch;
-}
-
-.replay:hover {
-  border-color: rgba(246, 197, 111, .6);
-  background-color: rgba(255, 255, 255, .14);
 }
 
 .replay svg {
@@ -815,21 +1066,54 @@ button:focus-visible {
   border-radius: 2px;
   background: var(--cream);
   transform-origin: 50% 100%;
-  animation: eq .9s ease-in-out infinite;
+  animation: eq 0.9s ease-in-out infinite;
 }
 
-.sound span:nth-child(2) { animation-delay: -.3s; }
-.sound span:nth-child(3) { animation-delay: -.6s; }
+.sound span:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.sound span:nth-child(3) {
+  animation-delay: -0.6s;
+}
 
 @keyframes eq {
-  0%, 100% { scale: 1 .35; }
-  50% { scale: 1 1; }
+  0%,
+  100% {
+    scale: 1 0.35;
+  }
+  50% {
+    scale: 1 1;
+  }
 }
 
 .sound[aria-pressed="false"] span {
-  opacity: .55;
-  scale: 1 .3;
+  opacity: 0.55;
+  scale: 1 0.3;
   animation: none;
+}
+
+/* Error and 404 pages */
+.notice {
+  display: grid;
+  min-height: 100%;
+  place-content: center;
+  justify-items: center;
+  gap: 18px;
+  padding: 24px;
+  text-align: center;
+}
+
+.notice h1 {
+  margin: 0;
+  color: var(--gold-light);
+  font-family: var(--script);
+  font-size: clamp(2.6rem, 11vw, 4rem);
+}
+
+.notice p {
+  max-width: 30ch;
+  margin: 0;
+  color: var(--cream-soft);
 }
 
 /* Wide screens: photo beside the wish */
@@ -847,17 +1131,20 @@ button:focus-visible {
   }
 
   .polaroid {
-    width: min(30vw, 330px, calc((100vh - 170px) * .7));
-    width: min(30vw, 330px, calc((100dvh - 170px) * .7));
+    width: min(30vw, 330px, calc((100vh - 170px) * 0.7));
+    width: min(30vw, 330px, calc((100dvh - 170px) * 0.7));
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation: none !important;
+    transition: none !important;
   }
 
-  .cake.is-waiting .tap {
-    opacity: .8;
+  .cake[data-waiting] .tap {
+    opacity: 0.8;
   }
 }
