@@ -20,15 +20,16 @@ Configuration reviewed on **1 November 2026**. The card is a static Next.js page
 
 Each job has a 15-minute limit. Browser failure reports, screenshots and traces are kept for seven days. The workflow declares `contents: read`, disables persisted checkout credentials, pins actions to full commit SHAs and uses no Vercel token.
 
-Dependabot opens grouped weekly updates for npm and GitHub Actions (Monday 03:00, Asia/Ho_Chi_Minh). Nothing auto-merges. TypeScript and `@types/node` majors need a compatibility review.
+Dependabot opens grouped weekly updates for npm and GitHub Actions (Monday 03:00, Asia/Ho_Chi_Minh). Dependabot PRs are never queued for auto-merge. TypeScript and `@types/node` majors need a compatibility review.
 
 ## GitHub protections
 
-The `main` ruleset, matching the open-kiln setup:
+The `main` ruleset and repository settings, based on the open-kiln setup:
 
 - Pull requests are required, with all review conversations resolved. Required approvals: zero, for a solo owner.
 - **Happy Birthday quality** and **Happy Birthday browser** must pass, from GitHub Actions, on an up-to-date branch.
 - Force pushes and branch deletion are blocked; history stays linear. Only squash merging is enabled, using the PR title, and merged branches are deleted.
+- Auto-merge is allowed, unlike open-kiln. A PR queued with `gh pr merge <number> --squash --auto` squash-merges itself once both required checks pass; the ruleset still applies. Queue it as the repository owner. Nothing is queued automatically.
 - Secret scanning with push protection, Dependabot alerts and security updates, and CodeQL default setup are enabled.
 
 ## Vercel settings
@@ -59,7 +60,7 @@ Web Analytics, Speed Insights and deployment checks are switched on in the Verce
 2. Run `corepack yarn verify`.
 3. Review the whole diff, including the photo and lockfile, then push and open a PR.
 4. Wait for both checks and the Vercel preview. Open the preview while signed in to Vercel; play it through on a phone, including the microphone if you use it.
-5. Squash-merge. Vercel deploys `main` to production once its checks pass. Confirm the production domain serves the new commit and the share preview looks right.
+5. Squash-merge, or queue auto-merge so it merges as soon as the checks pass. Vercel deploys `main` to production once its checks pass. Confirm the production domain serves the new commit and the share preview looks right.
 
 ## Recovery
 
