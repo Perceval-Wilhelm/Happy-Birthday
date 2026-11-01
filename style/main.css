@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Be Vietnam Pro', sans-serif;
   margin: 0;
 }
 
@@ -45,6 +45,7 @@ body {
   border: 3px solid #aaa;
   border-radius: 5px;
   margin: 0 auto;
+  max-width: 90%;
   padding: 10px;
   position: relative;
   width: 600px;
@@ -90,6 +91,10 @@ body {
   display: inline-block;
 }
 
+.wish-hbd span {
+  white-space: pre; /* an inline-block holding only a space collapses to 0 width otherwise */
+}
+
 .idea-6 span{
   font-size: 15rem;
 }
@@ -108,11 +113,16 @@ body {
   /* height: auto; */
 }
 
+.six .photo {
+  display: inline-block;
+  position: relative;
+}
+
 .six .hat {
-  left: 41.5%;
+  height: auto;
+  left: -13px;
   position: absolute;
-  /* transform: scale(0.1); */
-  top: -35%;
+  top: -59px;
   width: 80px;
 }
 
@@ -222,34 +232,11 @@ body {
 
 #replay {
   cursor: pointer;
+  position: relative;
   z-index: 3;
 }
 
 /* Media Queries */
-@media screen and (max-height: 1000px) {
-  .six .hat {
-    left: 40%;
-  }
-}
-
-@media screen and (max-height: 800px) {
-  .six .hat {
-    left: 37%;
-  }
-}
-
-@media screen and (max-height: 700px) {
-  .six .hat {
-    left: 32%;
-  }
-}
-
-@media screen and (max-height: 850px) and (max-width: 450px) {
-  .six .hat {
-    left: 32%;
-  }
-}
-
 @media screen and (max-width: 500px) {
   .container {
     width: 90%;
@@ -270,11 +257,6 @@ body {
 
   .idea-6 span {
     font-size: 10rem;
-  }
-
-  .six .hat {
-    /* top: -20px; */
-    width: 50px;
   }
 
   .wish-hbd {
