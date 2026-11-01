@@ -67,4 +67,4 @@ GitHub Actions runs **Happy Birthday quality** and **Happy Birthday browser** on
 
 ## Credits
 
-Started from [fajarghifar/happybirthday](https://github.com/fajarghifar/happybirthday) (MIT, see [LICENSE](LICENSE)); the party hat and favicon still come from it.
+Made by [Bùi Quốc Thịnh](https://github.com/Perceval-Wilhelm). Started from [fajarghifar/happybirthday](https://github.com/fajarghifar/happybirthday) (MIT, see [LICENSE](LICENSE)); the party hat and favicon still come from it.
