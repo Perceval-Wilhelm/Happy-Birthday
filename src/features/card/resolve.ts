@@ -7,7 +7,9 @@ export function resolveCard(config: CardConfig) {
   const text = Object.fromEntries(
     Object.entries(config.text).map(([key, line]) => [key, fill(line, voice)]),
   ) as CardConfig["text"];
-  return { ...config, text, addressee: `${config.you} ${config.name}` };
+  // Someone called by name is addressed by the name alone, not "Lan Lan".
+  const addressee = config.you === config.name ? config.name : `${config.you} ${config.name}`;
+  return { ...config, text, addressee };
 }
 
 export type ResolvedCard = ReturnType<typeof resolveCard>;

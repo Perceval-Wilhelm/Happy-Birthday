@@ -186,26 +186,34 @@ export function buildStory(root: HTMLElement, card: ResolvedCard, reduce: boolea
 
   // 8 · The wish
   show(".wish", `Happy Birthday!!! ${text.wish}`, "party+=2");
-  // The polaroid keeps its slight tilt: GSAP folds the CSS rotate into its own transform.
-  tl.fromTo(
-    q(".polaroid"),
-    { autoAlpha: 0, y: -80 * m, rotation: -3 - 16 * m, scale: grow(1.25) },
-    { autoAlpha: 1, y: 0, rotation: -3, scale: 1, duration: 1.2, ease: "back.out(1.3)" },
-    "party+=2",
-  );
-  // The photo develops like an instant print.
-  tl.fromTo(
-    q(".photo"),
-    { filter: "brightness(2.6) saturate(0) blur(8px)" },
-    { filter: "brightness(1) saturate(1) blur(0px)", duration: 3, ease: "power2.out" },
-    "<.3",
-  );
+  const hbd = write(".wish-hbd", "party+=3.6", 1.2);
+  reveal("#wishText", "-=.4", 0.05);
+  tl.to(hbd, { y: -10 * m, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.18 }, "+=.3");
+  // The prints land in turn and develop like instant photos. They share a fixed stretch, so more photos
+  // land faster instead of lengthening the story. Earlier prints rest askew, alternating sides, under the last.
+  const prints = q(".polaroid");
+  const gap = Math.min(2.8, 5.6 / (prints.length - 1 || 1));
+  prints.forEach((print, i) => {
+    const under = prints.length - 1 - i;
+    const side = under === 0 ? 0 : under % 2 ? 1 : -1;
+    const pose = { rotation: side ? side * 7.5 : -3, xPercent: side * 9 };
+    tl.fromTo(
+      print,
+      { autoAlpha: 0, y: -80 * m, xPercent: pose.xPercent, rotation: pose.rotation - 16 * m, scale: grow(1.25) },
+      { autoAlpha: 1, y: 0, ...pose, scale: 1, duration: 1.2, ease: "back.out(1.3)" },
+      `party+=${2 + i * gap}`,
+    );
+    tl.fromTo(
+      print.querySelector(".photo"),
+      { filter: "brightness(2.6) saturate(0) blur(8px)" },
+      { filter: "brightness(1) saturate(1) blur(0px)", duration: 3, ease: "power2.out" },
+      "<.3",
+    );
+  });
+  // Tape, hat and dates arrive with the top print.
   tl.from(q(".tape"), { autoAlpha: 0, scale: grow(1.8), duration: 0.5, ease: "back.out(2.5)" }, "<.5");
   tl.from(q(".hat"), { autoAlpha: 0, y: -260 * m, rotation: -60 * m, duration: 1.1, ease: "bounce.out" }, "<.2");
   tl.from(q(".date"), { autoAlpha: 0, duration: 0.8 }, "<.5");
-  const hbd = write(".wish-hbd", "<.1", 1.2);
-  reveal("#wishText", "-=.4", 0.05);
-  tl.to(hbd, { y: -10 * m, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.18 }, "+=.3");
   tl.call(hooks.fireworks, [5], "party+=2.6");
   tl.call(hooks.fireworks, [4], "party+=6");
 

@@ -95,9 +95,9 @@ export function BirthdayCard({ card }: { card: ResolvedCard }) {
       const music = createMusic(songRef.current!, () => setMuted(true));
       controlsRef.current = { music, fireworks };
       effects.attach(q(".confetti")[0] as HTMLCanvasElement);
-      // Dates differ between the server and the viewer's timezone, so the caption is filled in here.
-      q(".date")[0].textContent =
-        `♡ ${new Date().toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" })}`;
+      // Dates differ between the server and the viewer's timezone, so the captions are filled in here.
+      const today = new Date().toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" });
+      for (const date of q(".date")) date.textContent = `♡ ${today}`;
 
       const tl = buildStory(el, card, reduce, {
         announce: setAnnouncement,
@@ -342,14 +342,14 @@ export function BirthdayCard({ card }: { card: ResolvedCard }) {
               <svg className="back" viewBox="0 0 24 24" aria-hidden="true">
                 <polyline points="15 18 9 12 15 6" />
               </svg>
-              <Image className="avatar" src={card.photo} alt="" width={38} height={38} sizes="38px" />
+              <Image className="avatar" src={card.photos[0]} alt="" width={38} height={38} sizes="38px" />
               <div>
                 <strong>{card.addressee}</strong>
                 <small>Đang hoạt động</small>
               </div>
             </header>
             <div className="chat-body">
-              <Image className="avatar avatar-lg" src={card.photo} alt="" width={78} height={78} sizes="78px" />
+              <Image className="avatar avatar-lg" src={card.photos[0]} alt="" width={78} height={78} sizes="78px" />
               <strong>{card.addressee}</strong>
               <small>Hôm nay</small>
             </div>
@@ -408,24 +408,25 @@ export function BirthdayCard({ card }: { card: ResolvedCard }) {
 
         <section className="scene wish">
           <div className="polaroid-tilt">
-            <figure className="polaroid">
-              <span className="tape" />
-              <Image
-                className="photo profile-picture"
-                id="imagePath"
-                src={card.photo}
-                alt={`Ảnh của ${card.addressee}`}
-                sizes="(min-width: 900px) 330px, 62vw"
-                placeholder="blur"
-              />
-              <Image className="hat" src="/hat.svg" alt="" width={582} height={930} unoptimized />
-              <figcaption className="date" />
-              <i className="sparkle" />
-              <i className="sparkle" />
-              <i className="sparkle" />
-              <i className="sparkle" />
-              <i className="sparkle" />
-            </figure>
+            {card.photos.map((photo) => (
+              <figure className="polaroid" key={photo.src}>
+                <Image
+                  className="photo"
+                  src={photo}
+                  alt={`Ảnh của ${card.addressee}`}
+                  sizes="(min-width: 900px) 330px, 62vw"
+                  placeholder="blur"
+                />
+                <figcaption className="date" />
+              </figure>
+            ))}
+            <span className="tape" />
+            <Image className="hat" src="/hat.svg" alt="" width={582} height={930} unoptimized />
+            <i className="sparkle" />
+            <i className="sparkle" />
+            <i className="sparkle" />
+            <i className="sparkle" />
+            <i className="sparkle" />
           </div>
           <div className="wish-text">
             <h2 className="wish-hbd">Happy Birthday!!!</h2>

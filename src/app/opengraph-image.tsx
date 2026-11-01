@@ -1,11 +1,14 @@
 import { ImageResponse } from "next/og";
 import { card } from "@/content/card";
+import { resolveCard } from "@/features/card/resolve";
 
-export const alt = `Gửi ${card.you} ${card.name}: có một món quà nhỏ đang chờ mở`;
+const { addressee } = resolveCard(card);
+
+export const alt = `Gửi ${addressee}: có một món quà nhỏ đang chờ mở`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const title = `Gửi ${card.you} ${card.name}`;
+const title = `Gửi ${addressee}`;
 const subtitle = "Có một món quà nhỏ đang chờ mở";
 
 // Without a browser user agent, Google Fonts returns TrueType, which is what the image renderer reads;

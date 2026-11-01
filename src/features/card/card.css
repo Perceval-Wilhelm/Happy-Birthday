@@ -806,7 +806,14 @@ a:focus-visible {
   gap: clamp(20px, 3.5vh, 34px);
 }
 
+/* The prints stack in one cell; tape, hat and sparkles sit on the top one. */
+.polaroid-tilt {
+  position: relative;
+  display: grid;
+}
+
 .polaroid {
+  grid-area: 1 / 1;
   position: relative;
   width: min(62vw, 290px, calc((100vh - 330px) * 0.7));
   width: min(62vw, 290px, calc((100dvh - 330px) * 0.7));
